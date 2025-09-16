@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import GameRoom from './pages/GameRoom'
 import BotGameRoom from './pages/BotGameRoom'
+import ModernBotGameRoom from './pages/ModernBotGameRoom'
 import Lobby from './pages/Lobby'
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/lobby" element={<Lobby />} />
-        <Route path="/game/bot" element={<BotGameRoom />} />
+        <Route path="/game/bot" element={<ModernBotGameRoom />} />
+        <Route path="/game/bot-classic" element={<BotGameRoom />} />
         <Route path="/game/:roomId" element={<GameRoom />} />
       </Routes>
     </div>
