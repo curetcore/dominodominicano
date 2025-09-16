@@ -27,10 +27,15 @@ function JogatinaTable({ dominoes, leftEnd, rightEnd, onDrop }) {
 
   return (
     <div className="relative w-full h-full">
-      {/* Jogatina-style table: simple green background */}
-      <div className="absolute inset-0 bg-green-600 rounded-2xl">
-        {/* Subtle shadow for depth */}
-        <div className="absolute inset-4 bg-green-700 rounded-xl" />
+      {/* Jogatina-style table: green felt texture */}
+      <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700 rounded-3xl shadow-2xl">
+        {/* Felt texture effect */}
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px)',
+          backgroundSize: '10px 10px'
+        }} />
+        {/* Inner border */}
+        <div className="absolute inset-2 border-2 border-green-800/30 rounded-2xl" />
       </div>
 
       {/* Domino area */}
@@ -43,13 +48,13 @@ function JogatinaTable({ dominoes, leftEnd, rightEnd, onDrop }) {
           >
             <div 
               ref={setLeftRef}
-              className="border-3 border-dashed border-green-400 rounded-xl p-8"
+              className="bg-green-500/30 border-2 border-dashed border-yellow-400/60 rounded-2xl p-8 backdrop-blur-sm"
             >
-              <p className="text-green-100 text-lg font-medium">
+              <p className="text-white text-lg font-semibold drop-shadow-md">
                 Coloca tu ficha aquí
               </p>
-              <p className="text-green-200 text-sm mt-1">
-                El jugador con [6|6] empieza
+              <p className="text-green-100 text-sm mt-2">
+                El jugador con el doble seis empieza
               </p>
             </div>
           </motion.div>
@@ -64,9 +69,9 @@ function JogatinaTable({ dominoes, leftEnd, rightEnd, onDrop }) {
                 <motion.div
                   animate={{ opacity: [0.4, 0.7, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-12 h-20 border-2 border-dashed border-yellow-400 rounded-lg flex items-center justify-center bg-yellow-400/10"
+                  className="w-14 h-24 border-2 border-dashed border-yellow-400/70 rounded-xl flex items-center justify-center bg-yellow-400/20 backdrop-blur-sm"
                 >
-                  <span className="text-yellow-600 text-xs font-bold rotate-90">{leftEnd}</span>
+                  <span className="text-white text-sm font-bold drop-shadow-lg">{leftEnd}</span>
                 </motion.div>
               </div>
             )}
@@ -111,9 +116,9 @@ function JogatinaTable({ dominoes, leftEnd, rightEnd, onDrop }) {
                 <motion.div
                   animate={{ opacity: [0.4, 0.7, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-12 h-20 border-2 border-dashed border-yellow-400 rounded-lg flex items-center justify-center bg-yellow-400/10"
+                  className="w-14 h-24 border-2 border-dashed border-yellow-400/70 rounded-xl flex items-center justify-center bg-yellow-400/20 backdrop-blur-sm"
                 >
-                  <span className="text-yellow-600 text-xs font-bold rotate-90">{rightEnd}</span>
+                  <span className="text-white text-sm font-bold drop-shadow-lg">{rightEnd}</span>
                 </motion.div>
               </div>
             )}

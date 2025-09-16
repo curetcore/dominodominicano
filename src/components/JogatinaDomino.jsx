@@ -40,13 +40,15 @@ function JogatinaDomino({
     return patterns[value]?.map((pos, idx) => (
       <div
         key={idx}
-        className="absolute bg-black rounded-full"
+        className="absolute rounded-full"
         style={{
-          width: `${12 * scale}%`,
-          height: `${12 * scale}%`,
+          width: `${13 * scale}%`,
+          height: `${13 * scale}%`,
           left: `${pos[0]}%`,
           top: `${pos[1]}%`,
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          background: 'radial-gradient(circle at 30% 30%, #333 0%, #000 100%)',
+          boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.5), 0 1px 1px rgba(0,0,0,0.3)'
         }}
       />
     )) || null
@@ -72,22 +74,25 @@ function JogatinaDomino({
       {...(selectable && !disabled ? listeners : {})}
       {...attributes}
     >
-      {/* Domino Base - Jogatina style: simple white with border */}
+      {/* Domino Base - Jogatina style: clean white with subtle gradient */}
       <div 
         className={`
-          absolute inset-0 bg-white rounded-lg
-          ${selected ? 'ring-4 ring-yellow-400 shadow-lg' : ''}
-          ${isDragging ? 'shadow-2xl' : 'shadow-md'}
+          absolute inset-0 rounded-xl overflow-hidden
+          ${selected ? 'ring-4 ring-yellow-400 shadow-xl' : ''}
+          ${isDragging ? 'shadow-2xl scale-105' : 'shadow-lg'}
           transition-all duration-150
         `}
         style={{
-          border: '1px solid #ccc',
-          background: hidden ? '#2d2d2d' : 'white'
+          background: hidden 
+            ? 'linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%)' 
+            : 'linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%)',
+          border: '1px solid rgba(0,0,0,0.1)'
         }}
       >
         {/* Center divider line */}
         <div 
-          className={`absolute bg-gray-400 ${horizontal ? 'left-1/2 top-2 bottom-2 w-px' : 'left-2 right-2 top-1/2 h-px'}`}
+          className={`absolute bg-gradient-to-b from-gray-300 via-gray-400 to-gray-300 ${horizontal ? 'left-1/2 top-2 bottom-2 w-0.5' : 'left-2 right-2 top-1/2 h-0.5'}`}
+          style={{ boxShadow: '0 0 2px rgba(0,0,0,0.1)' }}
         />
         
         {/* Halves */}

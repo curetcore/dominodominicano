@@ -211,51 +211,78 @@ function JogatinaGameRoom() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-600 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col">
       {/* Header - Jogatina style */}
-      <div className="bg-blue-700 p-2 shadow-lg">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+      <div className="bg-white shadow-md p-3">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => navigate('/')}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold shadow-md transition-colors"
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
             >
-              Salir
+              <span>←</span> Salir
             </button>
-            <h2 className="text-white text-xl font-bold">Dominó Dominicano</h2>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-lg">🀺</span>
+              </div>
+              <h2 className="text-gray-800 text-lg font-bold">Dominó Online</h2>
+            </div>
           </div>
           
           {/* Score Display */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 bg-gray-100 rounded-lg px-6 py-2">
             <div className="text-center">
-              <div className="text-yellow-300 text-sm">Tu Equipo</div>
-              <div className="text-white text-2xl font-bold">{scores[0]}</div>
+              <div className="text-gray-600 text-xs">Nosotros</div>
+              <div className="text-blue-600 text-2xl font-bold">{scores[0]}</div>
             </div>
-            <div className="text-white text-xl">-</div>
+            <div className="text-gray-400 text-xl">:</div>
             <div className="text-center">
-              <div className="text-yellow-300 text-sm">Oponentes</div>
-              <div className="text-white text-2xl font-bold">{scores[1]}</div>
+              <div className="text-gray-600 text-xs">Ellos</div>
+              <div className="text-red-600 text-2xl font-bold">{scores[1]}</div>
             </div>
+            <div className="ml-4 text-gray-500 text-sm">Meta: 150</div>
           </div>
         </div>
       </div>
 
-      {/* Player avatars - top */}
-      <div className="flex justify-center gap-12 py-4">
-        {bots.slice(0, 3).map((bot, index) => (
+      {/* Player positions - Jogatina style layout */}
+      <div className="flex-1 relative">
+        {/* Top player (partner) */}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2">
           <PlayerAvatar 
-            key={bot.id}
-            name={bot.name}
-            avatar={bot.avatar}
-            isActive={gameState.currentPlayer === bot.id}
-            handSize={game.hands[bot.id]?.length || 0}
-            position={index === 1 ? 'partner' : 'opponent'}
+            name={bots[1].name}
+            avatar={bots[1].avatar}
+            isActive={gameState.currentPlayer === bots[1].id}
+            handSize={game.hands[bots[1].id]?.length || 0}
+            position="partner"
           />
-        ))}
-      </div>
+        </div>
+        
+        {/* Left player */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+          <PlayerAvatar 
+            name={bots[0].name}
+            avatar={bots[0].avatar}
+            isActive={gameState.currentPlayer === bots[0].id}
+            handSize={game.hands[bots[0].id]?.length || 0}
+            position="opponent"
+          />
+        </div>
+        
+        {/* Right player */}
+        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+          <PlayerAvatar 
+            name={bots[2].name}
+            avatar={bots[2].avatar}
+            isActive={gameState.currentPlayer === bots[2].id}
+            handSize={game.hands[bots[2].id]?.length || 0}
+            position="opponent"
+          />
+        </div>
 
-      {/* Game Table */}
-      <div className="flex-1 px-4 py-2">
+        {/* Game Table - centered */}
+        <div className="absolute inset-0 flex items-center justify-center p-16">
         <DndContext onDragEnd={(event) => {
           const { active, over } = event
           if (over && over.id.startsWith('table-')) {
@@ -270,6 +297,7 @@ function JogatinaGameRoom() {
             rightEnd={gameState.rightEnd}
           />
         </DndContext>
+        </div>
       </div>
 
       {/* Player Hand */}
@@ -340,29 +368,34 @@ function JogatinaGameRoom() {
 
 // Helper Components
 function PlayerAvatar({ name, avatar, isActive, handSize, position }) {
-  const positionStyles = {
-    partner: 'bg-green-500',
-    opponent: 'bg-red-500'
-  }
-
   return (
     <motion.div 
-      animate={{ scale: isActive ? 1.05 : 1 }}
-      className="text-center"
+      animate={{ scale: isActive ? 1.1 : 1 }}
+      className="bg-white rounded-xl p-3 shadow-lg"
+      style={{ minWidth: '120px' }}
     >
-      <div className={`
-        w-14 h-14 rounded-full flex items-center justify-center text-xl
-        ${isActive ? 'ring-4 ring-yellow-400' : ''}
-        ${positionStyles[position] || 'bg-gray-500'}
-        shadow-lg
-      `}>
-        {avatar}
+      <div className="flex items-center gap-3">
+        <div className={`
+          w-12 h-12 rounded-full flex items-center justify-center text-xl
+          ${isActive ? 'bg-yellow-400' : 'bg-gray-200'}
+          transition-colors duration-300
+        `}>
+          {avatar}
+        </div>
+        <div>
+          <div className="text-gray-800 text-sm font-medium">{name}</div>
+          <div className="text-gray-500 text-xs">{handSize} fichas</div>
+          {isActive && (
+            <motion.div 
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="text-green-500 text-xs font-medium"
+            >
+              Jugando...
+            </motion.div>
+          )}
+        </div>
       </div>
-      <div className="text-white text-sm font-medium mt-1">{name}</div>
-      <div className="text-white/70 text-xs">{handSize} fichas</div>
-      {isActive && (
-        <div className="text-yellow-300 text-xs mt-1">Jugando...</div>
-      )}
     </motion.div>
   )
 }
