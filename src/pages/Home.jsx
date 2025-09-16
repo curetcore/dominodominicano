@@ -61,6 +61,22 @@ function Home() {
     })
   }
 
+  const handlePlayWithBot = () => {
+    if (!playerName.trim()) {
+      alert('Por favor ingresa tu nombre')
+      return
+    }
+    
+    localStorage.setItem('playerName', playerName)
+    navigate('/game/bot', { 
+      state: { 
+        mode: 'bot',
+        playerName,
+        difficulty: 'medium' // Podríamos agregar selector de dificultad
+      } 
+    })
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 max-w-md w-full">
@@ -120,45 +136,55 @@ function Home() {
             </div>
 
             <div className="space-y-3">
-              <button
-                onClick={() => setShowCreateRoom(true)}
-                className="w-full btn-primary"
-              >
-                Crear Sala Nueva
-              </button>
-
-              <button
-                onClick={() => setShowTournaments(true)}
-                className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105"
-              >
-                🏆 Torneos
-              </button>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">o</span>
-                </div>
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  value={roomCode}
-                  onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dominican-blue focus:border-transparent mb-2"
-                  placeholder="Código de Sala"
-                  maxLength={6}
-                />
+              {/* Opción principal - Jugar contra Bot */}
+              <div className="bg-green-50 p-4 rounded-lg border-2 border-green-500">
+                <h3 className="font-bold text-green-800 mb-2">🤖 Jugar Solo</h3>
+                <p className="text-sm text-gray-600 mb-3">Practica contra la computadora</p>
                 <button
-                  onClick={handleJoinRoom}
-                  className="w-full btn-secondary"
+                  onClick={() => handlePlayWithBot()}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 text-lg"
                 >
-                  Unirse a Sala
+                  Jugar con Bot
                 </button>
               </div>
+
+              {/* Opciones multijugador */}
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h3 className="font-bold text-blue-800 mb-2">👥 Multijugador</h3>
+                
+                <button
+                  onClick={() => setShowCreateRoom(true)}
+                  className="w-full btn-primary mb-2"
+                >
+                  Crear Sala Privada
+                </button>
+
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={roomCode}
+                    onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dominican-blue focus:border-transparent"
+                    placeholder="Código"
+                    maxLength={6}
+                  />
+                  <button
+                    onClick={handleJoinRoom}
+                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  >
+                    Unirse
+                  </button>
+                </div>
+              </div>
+
+              {/* Torneos */}
+              <button
+                onClick={() => setShowTournaments(true)}
+                className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              >
+                <span className="text-xl">🏆</span>
+                <span>Torneos</span>
+              </button>
             </div>
           </div>
         ) : (
