@@ -1,22 +1,18 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
+import JogatinaHome from './pages/JogatinaHome'
 import GameRoom from './pages/GameRoom'
-import BotGameRoom from './pages/BotGameRoom'
-import ModernBotGameRoom from './pages/ModernBotGameRoom'
+import JogatinaGameRoom from './pages/JogatinaGameRoom'
 import Lobby from './pages/Lobby'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-green-800">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/lobby" element={<Lobby />} />
-        <Route path="/game/bot" element={<ModernBotGameRoom />} />
-        <Route path="/game/bot-classic" element={<BotGameRoom />} />
-        <Route path="/game/:roomId" element={<GameRoom />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<JogatinaHome />} />
+      <Route path="/lobby" element={<Lobby />} />
+      <Route path="/game/bot" element={<JogatinaGameRoom />} />
+      <Route path="/game/:roomId" element={<GameRoom />} />
+    </Routes>
   )
 }
 
