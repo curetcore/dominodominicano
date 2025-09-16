@@ -1,0 +1,35 @@
+{
+  "name": "dominican-domino",
+  "services": [
+    {
+      "name": "app",
+      "type": "app",
+      "build": {
+        "type": "dockerfile",
+        "file": "./Dockerfile"
+      },
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3001"
+      },
+      "ports": [
+        {
+          "container": 3001,
+          "host": 80,
+          "protocol": "http"
+        }
+      ],
+      "domains": [
+        {
+          "domain": "domino.yourdomain.com"
+        }
+      ],
+      "healthcheck": {
+        "endpoint": "/",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      }
+    }
+  ]
+}
